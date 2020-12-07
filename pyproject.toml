@@ -47,7 +47,7 @@ line_length = 119
 
 [tool.coverage.run]
 source = ["."]
-omit = ["manage.py", "ghiblimovies/wsgi.py", "ghiblimovies/asgi.py"]
+omit = ["manage.py", "ghiblimovies/wsgi.py", "ghiblimovies/asgi.py", "ghiblimovies/celery.py"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
