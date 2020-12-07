@@ -1,0 +1,61 @@
+version: "3.3"
+
+services:
+  app:
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - .env.template
+    links:
+      - postgres
+      - redis
+    image: ghiblimoviesimage
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: sh -c "/app/.venv/bin/python manage.py collectstatic --no-input && /app/.venv/bin/python manage.py migrate && /app/.venv/bin/gunicorn ghiblimovies.wsgi -b 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+
+  celery:
+    depends_on:
+      - app
+      - postgres
+      - redis
+    links:
+      - postgres
+      - redis
+    env_file:
+      - .env.template
+    image: ghiblimoviesimage
+    command: sh -c "/app/.venv/bin/celery -A ghiblimovies worker -l INFO"
+
+  celery-beat:
+    depends_on:
+      - app
+      - postgres
+      - redis
+    links:
+      - postgres
+      - redis
+    env_file:
+      - .env.template
+    image: ghiblimoviesimage
+    command: sh -c "/app/.venv/bin/celery -A ghiblimovies beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+
+  redis:
+    image: "redis:alpine"
+    container_name: "ghiblimovies_redis"
+    ports:
+        - "6379:6379"
+  postgres:
+    image: postgres
+    container_name: "ghiblimovies_postgres"
+    env_file:
+      .env.template
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+
+volumes:
+  database-data:
