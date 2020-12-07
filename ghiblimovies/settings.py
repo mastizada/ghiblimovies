@@ -16,6 +16,7 @@ env = environ.Env(
     USE_I18N=(bool, True),
     USE_L10N=(bool, True),
     USE_TZ=(bool, True),
+    CACHE_URL=(str, "dummycache://"),
 )
 
 # read the environment file
@@ -86,6 +87,10 @@ AUTH_USER_MODEL = "user.User"
 
 DATABASES = {"default": env.db()}
 
+# Cache
+CACHES = {
+    "default": env.cache(),
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

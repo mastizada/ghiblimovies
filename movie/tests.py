@@ -1,11 +1,11 @@
 from uuid import uuid4
 
 from django.test import TestCase
+from django.utils import timezone
 
 from actor.models import Actor, Specie
 from movie.apps import MovieConfig
 from movie.models import Movie
-from django.utils import timezone
 
 
 class ActorTestCase(TestCase):

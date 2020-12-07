@@ -1,6 +1,6 @@
 # GhibliMovies 🎬
- [![pipeline status](https://gitlab.com/mastizada/ghiblimovies/badges/master/pipeline.svg)](https://gitlab.com/mastizada/ghiblimovies/-/commits/master) 
- [![coverage report](https://gitlab.com/mastizada/ghiblimovies/badges/master/coverage.svg)](https://gitlab.com/mastizada/ghiblimovies/-/commits/master) 
+ [![pipeline status](https://gitlab.com/mastizada/ghiblimovies/badges/master/pipeline.svg)](https://gitlab.com/mastizada/ghiblimovies/-/pipelines) 
+ [![coverage report](https://gitlab.com/mastizada/ghiblimovies/badges/master/coverage.svg)](https://mastizada.gitlab.io/ghiblimovies/) 
 
 Movie list from Studio Ghibli
 
