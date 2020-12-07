@@ -17,6 +17,9 @@ env = environ.Env(
     USE_L10N=(bool, True),
     USE_TZ=(bool, True),
     CACHE_URL=(str, "dummycache://"),
+    CELERY_CACHE_BACKEND=(str, "django-cache"),
+    CELERY_BROKER_URL=(str, "memory://"),
+    CELERY_TASK_ALWAYS_EAGER=(bool, False),
 )
 
 # read the environment file
@@ -44,6 +47,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_celery_beat",
     "actor",
     "movie",
 ]
@@ -92,6 +96,13 @@ CACHES = {
     "default": env.cache(),
 }
 
+# Celery cache
+CELERY_CACHE_BACKEND = env("CELERY_CACHE_BACKEND")
+
+# Broker settings
+CELERY_BROKER_URL = env("CELERY_BROKER_URL")
+
+
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -118,6 +129,7 @@ LANGUAGE_CODE = "en-us"
 LOCALE_PATHS = (BASE_DIR / "locale",)
 
 TIME_ZONE = env("TIME_ZONE")
+CELERY_TIMEZONE = env("TIME_ZONE")
 USE_I18N = env("USE_I18N")
 USE_L10N = env("USE_L10N")
 USE_TZ = env("USE_TZ")
