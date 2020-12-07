@@ -1,4 +1,4 @@
-# GhibliMovies
+# GhibliMovies 🎬
  [![pipeline status](https://gitlab.com/mastizada/ghiblimovies/badges/master/pipeline.svg)](https://gitlab.com/mastizada/ghiblimovies/-/commits/master) 
  [![coverage report](https://gitlab.com/mastizada/ghiblimovies/badges/master/coverage.svg)](https://gitlab.com/mastizada/ghiblimovies/-/commits/master) 
 
