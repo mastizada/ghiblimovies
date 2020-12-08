@@ -17,6 +17,7 @@ django-celery-beat = "^2.1.0"
 django-redis = "^4.12.1"
 requests = "^2.25.0"
 sentry-sdk = "^0.19.4"
+django-cachalot = "^2.3.3"
 
 [tool.poetry.dev-dependencies]
 flake8-black = "^0.2.1"

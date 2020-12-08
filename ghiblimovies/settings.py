@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_celery_beat",
+    "cachalot",
     "actor",
     "movie",
 ]
@@ -109,6 +110,10 @@ DATABASES = {"default": env.db()}
 CACHES = {
     "default": env.cache(),
 }
+
+# Cachalot
+CACHALOT_TIMEOUT = 86400
+CACHALOT_UNCACHABLE_TABLES = ("django_migrations",)
 
 # Celery settings
 CELERY_CACHE_BACKEND = env("CELERY_CACHE_BACKEND")
