@@ -2,6 +2,7 @@ import logging
 from uuid import uuid4
 
 from django.test import TestCase
+from django.urls import reverse
 
 from actor.models import Actor, GenderTypes, Specie
 from movie.apps import MovieConfig
@@ -10,7 +11,7 @@ from movie.tasks import sync_actors, sync_movies
 from movie.utils import import_actor_from_data, import_movie_from_data
 
 
-class ActorTestCase(TestCase):
+class MovieTestCase(TestCase):
     movie_name = "Who is Doctor?"
     director_name = "Graeme Harper"
 
@@ -88,3 +89,13 @@ class ActorTestCase(TestCase):
         self.assertEqual(actor.gender, GenderTypes.FEMALE)
         actor = import_actor_from_data({"id": uuid4(), "name": "IActor 3", "gender": "Male"})
         self.assertEqual(actor.gender, GenderTypes.MALE)
+
+    def test_homepage_redirect(self):
+        with self.settings(ALLOWED_HOSTS=["testserver"]):
+            response = self.client.get(reverse("homepage"))
+            self.assertEqual(response.status_code, 302)
+            self.assertTrue(hasattr(response, "url"))
+            self.assertEqual(response.url, reverse("movies-homepage"))
+            response = self.client.get(reverse("movies-homepage"))
+            self.assertEqual(response.status_code, 200)
+            self.assertTemplateUsed(response, "movies.html")

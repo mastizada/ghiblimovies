@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Movies{% endblock %}
+{% block content %}
+<ol>
+    {% for movie in movies %}
+    <li>
+        {{ movie.title }}
+        (Release: {% if movie.release_year %}{{ movie.release_year }}{% else %}N/A{% endif %},
+        RT: {{ movie.rt_score }}%)
+        <ul>
+        {% for actor in movie.actors.all %}
+            <li>{{ actor.name }} ({{ actor.get_gender_display }}, Age: {{ actor.age }}, Hair:{{ actor.hair_color }})</li>
+        {% endfor %}
+        {% if not movie.actors.all %}
+            <li>Actors are not known.</li>
+        {% endif %}
+        </ul>
+    </li>
+    {% endfor %}
+</ol>
+{% endblock %}
