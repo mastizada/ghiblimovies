@@ -6,7 +6,7 @@ services:
       - postgres
       - redis
     env_file:
-      - .env.template
+      - .env
     links:
       - postgres
       - redis
@@ -32,7 +32,7 @@ services:
       - postgres
       - redis
     env_file:
-      - .env.template
+      - .env
     image: ghiblimoviesimage
     command: sh -c "/app/.venv/bin/celery -A ghiblimovies worker -l INFO"
 
@@ -46,20 +46,18 @@ services:
       - postgres
       - redis
     env_file:
-      - .env.template
+      - .env
     image: ghiblimoviesimage
     command: sh -c "/app/.venv/bin/celery -A ghiblimovies beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
 
   redis:
     image: "redis:alpine"
     container_name: "ghiblimovies_redis"
-    ports:
-        - "6379:6379"
   postgres:
     image: postgres
     container_name: "ghiblimovies_postgres"
     env_file:
-      .env.template
+      .env
     volumes:
       - database-data:/var/lib/postgresql/data/
 

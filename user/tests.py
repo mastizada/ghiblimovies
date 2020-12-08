@@ -69,7 +69,7 @@ class UserManagerTestCase(TestCase):
             DEFAULT_ADMIN_USERNAME="testadm", DEFAULT_ADMIN_EMAIL="testadm@debugwith.me", DEFAULT_ADMIN_PASS="testpass"
         ):
             call_command("initadmin")
-            self.assertTrue(User.objects.filter(username="testadm").exists()), "User is not created."
+            self.assertTrue(User.objects.filter(username="testadm").exists(), msg="User is not created.")
             user = User.objects.get(username="testadm")
             self.assertTrue(user.has_usable_password())
             self.assertEqual(user.username, "testadm")

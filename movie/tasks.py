@@ -88,11 +88,13 @@ def sync_movies():
 
 
 @app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **__):
+def setup_periodic_tasks(sender, **__):  # pragma: no cover
     """
     Setup periodic tasks when instance starts.
 
     It is called directly by the celery-beat worker and saved in the Periodic Tasks model.
     """
-    # call sync_movies every minute
-    sender.add_periodic_task(40.0, sync_movies.s(), name="sync movies every minute")  # pragma: no cover
+    # call sync_movies every 40 seconds
+    sender.add_periodic_task(40.0, sync_movies.s(), name="sync movies every minute")
+    # start the initial
+    sync_movies.delay()
