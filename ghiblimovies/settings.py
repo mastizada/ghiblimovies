@@ -70,13 +70,12 @@ template_loaders = ["django.template.loaders.filesystem.Loader", "django.templat
 
 # use template caching in production
 if not DEBUG:
-    template_loaders = [("django.template.loaders.cached.Loader", template_loaders)]
+    template_loaders = [("django.template.loaders.cached.Loader", template_loaders)]  # pragma: no cover
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [BASE_DIR / "templates"],
-        "APP_DIRS": True,
         "OPTIONS": {
             # https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
             "debug": DEBUG,
