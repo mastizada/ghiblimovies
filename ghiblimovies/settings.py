@@ -20,6 +20,7 @@ env = environ.Env(
     CELERY_CACHE_BACKEND=(str, "django-cache"),
     CELERY_BROKER_URL=(str, "memory://"),
     CELERY_TASK_ALWAYS_EAGER=(bool, True),
+    SENTRY_DSN=(str, None),
     MOVIES_API_BASE=(str, "https://ghibliapi.herokuapp.com/"),
 )
 
@@ -144,6 +145,19 @@ CELERY_TIMEZONE = env("TIME_ZONE")
 USE_I18N = env("USE_I18N")
 USE_L10N = env("USE_L10N")
 USE_TZ = env("USE_TZ")
+
+# Sentry integration
+if env("SENTRY_DSN"):
+    import sentry_sdk
+    from sentry_sdk.integrations.celery import CeleryIntegration
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    sentry_sdk.init(
+        dsn=env("SENTRY_DSN"),
+        integrations=[DjangoIntegration(), CeleryIntegration()],
+        traces_sample_rate=1.0,
+        send_default_pii=False,
+    )
 
 # Logger settings
 LOGGING = {
