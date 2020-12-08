@@ -14,7 +14,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: sh -c "/app/.venv/bin/python manage.py collectstatic --no-input && /app/.venv/bin/python manage.py migrate && /app/.venv/bin/gunicorn ghiblimovies.wsgi -b 0.0.0.0:8000"
+    command: sh -c "
+        /app/.venv/bin/python manage.py collectstatic --no-input &&
+        /app/.venv/bin/python manage.py migrate &&
+        /app/.venv/bin/python manage.py initadmin &&
+        /app/.venv/bin/gunicorn ghiblimovies.wsgi -b 0.0.0.0:8000
+      "
     ports:
       - "8000:8000"
 

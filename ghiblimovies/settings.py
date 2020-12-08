@@ -143,3 +143,8 @@ STATIC_ROOT = "{base}/{static}".format(base=BASE_DIR, static=STATIC_URL.strip("/
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = "{base}/{static}".format(base=BASE_DIR, static=MEDIA_URL.strip("/"))
+
+# Default admin details
+DEFAULT_ADMIN_USERNAME = env("DEFAULT_ADMIN_USERNAME", default=None)
+DEFAULT_ADMIN_EMAIL = env("DEFAULT_ADMIN_EMAIL", default=None)
+DEFAULT_ADMIN_PASS = env("DEFAULT_ADMIN_PASS", default=None)

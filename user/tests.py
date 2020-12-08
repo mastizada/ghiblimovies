@@ -1,3 +1,4 @@
+from django.core.management import CommandError, call_command
 from django.db.utils import IntegrityError
 from django.test import TestCase
 from django.utils import timezone
@@ -56,3 +57,23 @@ class UserManagerTestCase(TestCase):
     def test_empty_password(self):
         user = User.objects.create_user(email=self.email, username=self.username)
         self.assertFalse(user.has_usable_password())
+
+    def test_custom_create_command(self):
+        with self.settings(DEFAULT_ADMIN_USERNAME=None):
+            with self.assertRaises(CommandError) as exc:
+                call_command("initadmin")
+
+        self.assertTrue("Default admin details are not set!" in exc.exception.args)
+
+        with self.settings(
+            DEFAULT_ADMIN_USERNAME="testadm", DEFAULT_ADMIN_EMAIL="testadm@debugwith.me", DEFAULT_ADMIN_PASS="testpass"
+        ):
+            call_command("initadmin")
+            self.assertTrue(User.objects.filter(username="testadm").exists()), "User is not created."
+            user = User.objects.get(username="testadm")
+            self.assertTrue(user.has_usable_password())
+            self.assertEqual(user.username, "testadm")
+            self.assertEqual(user.email, "testadm@debugwith.me")
+            self.assertTrue(user.check_password("testpass"))
+            # calling the command twice should not cause an issue
+            call_command("initadmin")
