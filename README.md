@@ -45,7 +45,7 @@ Run the project tests using the `./manage.py test` command.
 
 ### Docker-Compose
 
-Docker-compose have postgresql, redis and rabbitmq instances ready and will start the web server, celery, and celery-beat services.
+Docker-compose have postgresql and redis instances ready and will start the web server, celery, and celery-beat services.
 
 Run the project using docker-compose:
 ```console
