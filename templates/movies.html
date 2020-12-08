@@ -17,5 +17,8 @@
         </ul>
     </li>
     {% endfor %}
+    {% if not movies %}
+    <li>No movies yet.</li>
+    {% endif %}
 </ol>
 {% endblock %}
