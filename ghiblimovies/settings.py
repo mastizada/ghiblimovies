@@ -19,7 +19,8 @@ env = environ.Env(
     CACHE_URL=(str, "dummycache://"),
     CELERY_CACHE_BACKEND=(str, "django-cache"),
     CELERY_BROKER_URL=(str, "memory://"),
-    CELERY_TASK_ALWAYS_EAGER=(bool, False),
+    CELERY_TASK_ALWAYS_EAGER=(bool, True),
+    MOVIES_API_BASE=(str, "https://ghibliapi.herokuapp.com/"),
 )
 
 # read the environment file
@@ -96,12 +97,10 @@ CACHES = {
     "default": env.cache(),
 }
 
-# Celery cache
+# Celery settings
 CELERY_CACHE_BACKEND = env("CELERY_CACHE_BACKEND")
-
-# Broker settings
 CELERY_BROKER_URL = env("CELERY_BROKER_URL")
-
+CELERY_TASK_ALWAYS_EAGER = env("CELERY_TASK_ALWAYS_EAGER")
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -134,6 +133,60 @@ USE_I18N = env("USE_I18N")
 USE_L10N = env("USE_L10N")
 USE_TZ = env("USE_TZ")
 
+# Logger settings
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": True,
+    "root": {
+        "level": "WARNING",
+        "handlers": ["sentry"],
+    },
+    "formatters": {
+        "verbose": {"format": "%(levelname)s %(asctime)s %(module)s " "%(process)d %(thread)d %(message)s"},
+        "default": {
+            "format": "{0}: %(asctime)s %(name)s:%(levelname)s %(message)s: "
+            "%(pathname)s:%(lineno)s %(module)s".format("ghiblimovies"),
+        },
+    },
+    "filters": {
+        "only_error_levels": {
+            "()": "ghiblimovies.utils.ErrorOnlyLogFilter",
+        }
+    },
+    "handlers": {
+        "sentry": {
+            "level": "ERROR",
+            "class": "logging.StreamHandler",
+            "formatter": "default",
+            "filters": ["only_error_levels"],
+        },
+        "console": {
+            "level": "DEBUG" if DEBUG else "ERROR",
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+            "filters": [] if DEBUG else ["only_error_levels"],
+        },
+        "null": {"class": "logging.NullHandler"},
+    },
+    "loggers": {
+        "django.db.backends": {
+            "level": "ERROR",
+            "handlers": ["console"],
+            "propagate": False,
+        },
+        "gfront": {
+            "level": "WARNING",
+            "handlers": ["console", "sentry"],
+            "propagate": False,
+        },
+        "gtasks": {
+            "level": "INFO",
+            "handlers": ["console", "sentry"],
+            "propagate": False,
+        },
+    },
+}
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -148,3 +201,6 @@ MEDIA_ROOT = "{base}/{static}".format(base=BASE_DIR, static=MEDIA_URL.strip("/")
 DEFAULT_ADMIN_USERNAME = env("DEFAULT_ADMIN_USERNAME", default=None)
 DEFAULT_ADMIN_EMAIL = env("DEFAULT_ADMIN_EMAIL", default=None)
 DEFAULT_ADMIN_PASS = env("DEFAULT_ADMIN_PASS", default=None)
+
+# External API
+MOVIES_API_BASE = env("MOVIES_API_BASE")

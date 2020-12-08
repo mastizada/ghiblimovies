@@ -39,6 +39,7 @@ services:
   celery-beat:
     depends_on:
       - app
+      - celery
       - postgres
       - redis
     links:
