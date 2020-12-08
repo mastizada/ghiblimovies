@@ -152,7 +152,7 @@ USE_L10N = env("USE_L10N")
 USE_TZ = env("USE_TZ")
 
 # Sentry integration
-if env("SENTRY_DSN"):
+if env("SENTRY_DSN"):  # pragma: no cover
     import sentry_sdk
     from sentry_sdk.integrations.celery import CeleryIntegration
     from sentry_sdk.integrations.django import DjangoIntegration
