@@ -65,12 +65,25 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "ghiblimovies.urls"
 
+# Templates
+template_loaders = ["django.template.loaders.filesystem.Loader", "django.template.loaders.app_directories.Loader"]
+
+# use template caching in production
+if not DEBUG:
+    template_loaders = [("django.template.loaders.cached.Loader", template_loaders)]
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
+            # https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
+            "debug": DEBUG,
+            # https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
+            # https://docs.djangoproject.com/en/dev/ref/templates/api/#loader-types
+            "loaders": template_loaders,
+            # https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
