@@ -5,7 +5,7 @@ API does not support pagination or ordering by date.
 
 Updating existing movies is out-of-scope.
 
-The films API will be checked every minute to make sure we always have newest movies.
+The films API will be checked every 40 seconds to make sure we always have newest movies.
 The people API will be checked if a new movie is added.
 
 Data from the API is small enough for importing directly.
@@ -95,4 +95,4 @@ def setup_periodic_tasks(sender, **__):
     It is called directly by the celery-beat worker and saved in the Periodic Tasks model.
     """
     # call sync_movies every minute
-    sender.add_periodic_task(60.0, sync_movies.s(), name="sync movies every minute")  # pragma: no cover
+    sender.add_periodic_task(40.0, sync_movies.s(), name="sync movies every minute")  # pragma: no cover
